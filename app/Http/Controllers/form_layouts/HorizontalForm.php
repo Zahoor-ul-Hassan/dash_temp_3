@@ -22,26 +22,29 @@ class HorizontalForm extends Controller
   {
     // Validate the form data
     
-    $validatedData = $request->validate([
-      'name' => 'required',
-      'fee' => 'required|numeric',
-      'description' => 'required',
-      'teachers' => 'required|array',
-      'teachers.*' => 'exists:users,id',
-      'managers' => 'required|array',
-      'managers.*' => 'exists:users,id',
-      'students' => 'required|array', 
-      'students.*' => 'exists:students,id',
-    ]);
-
+      $validatedData = $request->validate([
+        'name' => 'required',
+        'status' => 'required',
+        'fee' => 'required|numeric',
+        'description' => 'required',
+        'teachers' => 'required|array',
+        'teachers.*' => 'exists:users,id',
+        'managers' => 'required|array',
+        'managers.*' => 'exists:users,id',
+       ]);
+         
     // Create the workshop
     $workshop = Workshop::create($validatedData);
 
     // Attach students to the workshop
-    $workshop->students()->attach($validatedData['students']);
+    
+    
     $workshop->teacher()->attach($validatedData['teachers']);
     $workshop->manager()->attach($validatedData['managers']);
-
+    if ($request->has('students'))
+    {
+      $workshop->students()->attach($validatedData['students']);
+    }
     return redirect('dashboard/dashboards-analytics')->with('success','Registration Successful');
   }
 }

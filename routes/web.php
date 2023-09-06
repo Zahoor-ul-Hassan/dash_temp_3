@@ -101,6 +101,10 @@ Route::middleware(['web'])->group(function () {
     Route::get('/tables/workshop',  'App\Http\Controllers\tables\workshopController@index')->name('tables-workshop');
     Route::post('/tables/basic/{id}',  'App\Http\Controllers\authentications\RegisterBasic@update')->name('tables-basic');
     Route::post('/tables/workshop/{id}',  'App\Http\Controllers\tables\workshopController@update')->name('tables-workshop');
+    
+    Route::get('/tables/workshop/manager/api/{id}',  'App\Http\Controllers\tables\workshopController@managerWorkshops')->name('tables-workshop-manager');
+    Route::get('/tables/workshop/teacher/api/{id}',  'App\Http\Controllers\tables\workshopController@teacherWorkshops')->name('tables-workshop-teacher');
+    Route::get('/tables/workshop/student/api/{id}',  'App\Http\Controllers\tables\workshopController@studentWorkshops')->name('tables-workshop-student');
 
     Route::get('/tables/workshop/view/{id}',  'App\Http\Controllers\tables\workshopController@view')->name('tables-workshop');
     Route::get('/tables/workshop/edit/{id}',  'App\Http\Controllers\tables\workshopController@edit')->name('tables-workshop');

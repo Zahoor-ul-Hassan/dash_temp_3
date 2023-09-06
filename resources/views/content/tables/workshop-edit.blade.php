@@ -52,13 +52,15 @@
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                <label for="nameSlideTop" class="form-label">Managers</label>
-                <select class="form-select" id="manager" name="managers[]" aria-label="Default select example" multiple>
-                @foreach ($managers as $manager)
-                    <option value="{{ $manager->id }}">{{ $manager->name }}</option>
-                @endforeach
-                </select>  
+                    <label for="manager" class="form-label">Managers</label>
+                    <input list="manager-options" class="form-control" id="manager" name="managers[]" placeholder="Search for managers">
+                        <datalist id="manager-options">
+                            @foreach ($managers as $manager)
+                                <option value="{{ $manager->id }}">{{ $manager->name }}</option>
+                            @endforeach
+                        </datalist>
                 </div>
+
                 <div class="modal-footer">
                   <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
                   <button type="submit" class="btn btn-primary">Save</button>
@@ -76,13 +78,15 @@
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                <label for="nameSlideTop" class="form-label">Teachers</label>  
-                <select class="form-select" id="teacher" name="teachers[]" aria-label="Default select example" multiple>
-                @foreach ($teachers as $teacher)
-                    <option value="{{ $teacher->id }}">{{ $teacher->name }}</option>
-                @endforeach
-                </select>
+                    <label for="teacher" class="form-label">Teachers</label>
+                    <input list="teacher-options" class="form-control" id="teacher" name="teachers[]" placeholder="Search for teachers" >
+                        <datalist id="teacher-options">
+                            @foreach ($teachers as $teacher)
+                                <option value="{{ $teacher->id }}">{{ $teacher->name }}</option>
+                            @endforeach
+                        </datalist>
                 </div>
+
                 <div class="modal-footer">
                   <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
                   <button type="submit" class="btn btn-primary">Save</button>
@@ -107,6 +111,15 @@
                     <label class="form-label" for="basic-default-fullname">Name</label>
                     <input type="text" class="form-control" id="name" name="name" value="{{$workshop->name}}" />
                 </div>
+                <div class="mb-3">
+                    <label class="form-label" for="basic-default-fullname">Status</label>
+                    <select class="form-select" id="status" name="status" aria-label="Default select example">
+                        <option selected value="{{$workshop->status}}">{{$workshop->status}}</option>
+                        <option value="Active">Active</option>
+                        <option value="Cancelled">Cancelled</option>
+                        <option value="Ongoing">Ongoing</option>
+                    </select>
+                    </div>
                 <div class="mb-3">
                     <div >
                     <label class="form-label" for="basic-default-fullname">Manager</label>

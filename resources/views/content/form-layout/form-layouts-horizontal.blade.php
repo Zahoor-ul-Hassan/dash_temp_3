@@ -24,6 +24,13 @@
             </div>
           </div>
           <div class="row mb-3">
+            <label class="col-sm-2 col-form-label" for="basic-default-name">Status</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="status" name="status" placeholder="workshop status" />
+            </div>
+          </div>
+          
+          <div class="row mb-3">
             <label class="col-sm-2 col-form-label" for="basic-default-fee">Fee</label>
             <div class="col-sm-10">
               <input type="text" class="form-control" id="fee" name="fee" placeholder="fee for workshop" />

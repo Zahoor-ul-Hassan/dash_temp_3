@@ -40,13 +40,13 @@ public function isManager()
 
 public function workshopsAsTeacher()
 {
-    return $this->belongsToMany(Workshop::class, 'workshop_teacher', 'teacher_id', 'workshop_id')->where('role','teacher');
+    return $this->belongsToMany(Workshop::class, 'workshop_teacher', 'teacher_id', 'workshop_id');
     
 }
 
 public function workshopsAsManager()
 {
-    return $this->belongsToMany(Workshop::class, 'workshop_manager', 'manager_id', 'workshop_id')->where('role','manager');
+    return $this->belongsToMany(Workshop::class, 'workshop_manager', 'manager_id', 'workshop_id');
     
 }
 

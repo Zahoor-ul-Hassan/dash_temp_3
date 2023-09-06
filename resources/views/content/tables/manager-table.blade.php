@@ -27,16 +27,28 @@
     padding-right: 10px;
     text-align: left;
     white-space: nowrap;
-    width: 77px;
+    width: 95px;
   }
 
   .form-group input {
     display: table-cell;
     width: 100%;
     box-sizing: border-box;
+    margin-top:1px;
     background-color:white;
+    border-color:black;
+    border: 1px solid;
+  }
+  .form-group input[readonly]{
     border:none;
   }
+  .form-control{
+    border:none;
+  }
+  #point:hover {
+  color: #333; 
+  cursor: pointer; 
+}
     
 </style>
 
@@ -56,6 +68,10 @@
                   <p>Name: <span id="name"></span></p>
                   <p>Email: <span id="email"></span></p>
                   <p>Role: <span id="role"></span></p>
+                  <ul id="workshopList">
+                  <li id="point">a</li>
+
+                  </ul>
 
                 </div>
                 <div class="modal-footer">
@@ -80,8 +96,8 @@
             </div>
             <div class="modal-body">            
               <div class="mb-3">
-                <label for="name" class="form-label">Username</label>
-                <input type="text" class="form-control" id="name" name="name" placeholder="Enter your username" autofocus>
+                <label for="name" class="form-label">Name</label>
+                <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name" autofocus>
               </div>
               <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
@@ -161,162 +177,155 @@
 
   <!-- scrap work -->
   <script>
-     const reloadPage = () => {
-    window.location.reload(true);
-  };
+    const reloadPage = () => {
+        window.location.reload(true);
+    };
 
     console.log('Script is running!');
     document.addEventListener('DOMContentLoaded', function () {
-    
-    });
-      document.addEventListener('DOMContentLoaded', function () {
-          let viewButtons = document.querySelectorAll('.view-button');
-          const modal = document.getElementById('modalview');
-          let isEditing = false;
-          let editButton = document.getElementById('editButton');
-          viewButtons.forEach(button => {
-              button.addEventListener('click', function () {
-                  const id = this.getAttribute('data-id');
-                  const Name = this.getAttribute('data-name');
-                  const Email = this.getAttribute('data-email');
-                  const Role = this.getAttribute('data-role');
-                  const Number = this.getAttribute('data-number');
-                  const Fee = this.getAttribute('data-fee');
-                  const isStudent = this.getAttribute('data-is-student');
+        let viewButtons = document.querySelectorAll('.view-button');
+        const modal = document.getElementById('modalview');
+        let isEditing = false;
+        let editButton = document.getElementById('editButton');
 
-                  
-                  const showData = () => {
-                      
-                      let modalContent = `
+        viewButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                const id = this.getAttribute('data-id');
+                const Name = this.getAttribute('data-name');
+                const Email = this.getAttribute('data-email');
+                const Role = this.getAttribute('data-role');
+                const Number = this.getAttribute('data-number');
+                const Fee = this.getAttribute('data-fee');
+                const isStudent = this.getAttribute('data-is-student');
+
+                const showData = () => {
+                    let modalContent = `
                         <form id="editForm" method="post">
-                        @csrf
-                        @method('post')
-                          <div class="modal-dialog" role="document">
-                              <div class="modal-content">
-                                  <div class="modal-header">
-                                      <h5 class="modal-title">${Role.toUpperCase()} DETAILS</h5>
-                                  </div>
-                                  <div class="modal-body">
-                                      <div class="form-group">
-                                          <label for="name">Name : </label>
-                                          <input type="text" class="form-control" id="name" name="name" value="${Name}" readonly>
-                                      </div>
-                                      <div class="form-group">
-                                          <label for="email">Email :</label>
-                                          <input type="email" class="form-control" id="email" name="email" value="${Email}" readonly>
-                                      </div>
-                                    
-                  `;
-                  if (isStudent === 'false') {
-                      modalContent += `
-                                      <div class="form-group">
-                                          <label for="role">Role :</label>
-                                          <input type="text" class="form-control" id="role" name="role" value="${Role}"  readonly>
-                                      </div>
-                                      <div class="form-group d-none" id="use" >
-                                          <label for="password">Password :</label>
-                                          <input type="text" class="form-control" id="password" name="password" value="**********"  readonly>
-                                      </div>
-                      `;
-                  } else {
-                      modalContent += `
-                                      <div class="form-group d-none">
-                                        <label for="role">Role :</label>
-                                        <input type="text" class="form-control" id="role" name="role" value="${Role}">
-                                      </div>
-                                      `;
-                  }  
+                            @csrf
+                            @method('post')
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">${Role.toUpperCase()} DETAILS</h5>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label for="name">Name : </label>
+                                            <input type="text" class="form-control" id="name" name="name" value="${Name}" readonly>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="email">Email :</label>
+                                            <input type="email" class="form-control" id="email" name="email" value="${Email}" readonly>
+                                        </div>
+                `;
 
-                  
-                  if (isStudent === 'true') {
-                      modalContent += `
-                                      
-                                      <div class="form-group">
-                                          <label for="number">Number : </label>
-                                          <input type="text" class="form-control" id="number" name="number" value="${Number}" readonly>
-                                      </div>
-                                      <div class="form-group">
-                                          <label for="fee">Fee :</label>
-                                          <input type="text" class="form-control" id="fee" name="fee" value="${Fee}" readonly>
-                                      </div>
-                      `;
-                  }
+                if (isStudent === 'false') {
+                    modalContent += `
+                                        <div class="form-group">
+                                            <label for="role">Role :</label>
+                                            <input type="text" class="form-control" id="role" name="role" value="${Role}" readonly>
+                                        </div>
+                                        <div class="form-group d-none" id="use">
+                                            <label for="password">Password :</label>
+                                            <input type="text" class="form-control" id="password" name="password" value="**********" readonly>
+                                        </div>
+                    `;
+                } else {
+                    modalContent += `
+                                        <div class="form-group d-none">
+                                            <label for="role">Role :</label>
+                                            <input type="text" class="form-control" id="role" name="role" value="${Role}">
+                                        </div>
+                                        
+                    `;
+                }
 
-                  
-                  modalContent += `
-                                  </div>
-                                  <div class="modal-footer">
-                                      <button type="button" class="btn rounded-pill btn btn-sm btn-outline-danger" data-bs-dismiss="modal">Close</button>
-                                      <button type="button" class="btn rounded-pill btn btn-sm btn-outline-primary" id="editButton">Edit</button>
-                                  </div>
-                              </div>
-                          </div>
+                if (isStudent === 'true') {
+                    modalContent += `
+                                        <div class="form-group">
+                                            <label for="number">Number : </label>
+                                            <input type="text" class="form-control" id="number" name="number" value="${Number}" readonly>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="fee">Fee :</label>
+                                            <input type="text" class="form-control" id="fee" name="fee" value="${Fee}" readonly>
+                                        </div>
+                    `;
+                }
+
+                modalContent += `
+                                        <div class="form-group" id="adrem">
+                                          <label for="fee">Workshops :</label>
+                                            <ul id="workshopList" class="form-control abc" > 
+                                            <li id="point">a</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn rounded-pill btn btn-sm btn-outline-danger" data-bs-dismiss="modal">Close</button>
+                                        <button type="button" class="btn rounded-pill btn btn-sm btn-outline-primary" id="editButton">Edit</button>
+                                    </div>
+                                </div>
+                            </div>
                         </form>
-                      `;
+                    `;
 
-                      
-                      modal.innerHTML = modalContent;
-                      $(modal).modal('show');
-                      let editButton = document.getElementById('editButton');
-                      
+                    modal.innerHTML = modalContent;
+                    $(modal).modal('show');
+                    let editButton = document.getElementById('editButton');
 
+                    editButton.addEventListener('click', showEditingForm);
 
+                    // Fetch workshops associated with the manager
+                    fetchWorkshops(id);
+                };
 
-                      editButton.addEventListener('click', showEditingForm);
-                  };
-
-                  
-                  
-                  const showEditingForm = () => {
+                const showEditingForm = () => {
                     console.log('Switching to edit mode...');
-                    
-                    let editButton = document.getElementById('editButton'); 
-                      document.querySelectorAll('input[readonly]').forEach(input => {
-                          input.removeAttribute('readonly');
-                          const targetId = 'use';
-                          const targetElement = document.getElementById(targetId);
-                          if (targetElement) {
+                    let editButton = document.getElementById('editButton');
+                    document.querySelectorAll('input[readonly]').forEach(input => {
+                        input.removeAttribute('readonly');
+                        const targetId = 'use';
+                        const targetElement = document.getElementById(targetId);
+                        if (targetElement) {
                             targetElement.classList.remove('d-none');
-                          }
-                      });
-
-                      
-                      editButton.textContent = 'Save Changes';
-                        
-                      
-                      editButton.removeEventListener('click', showEditingForm); 
-                      editButton.addEventListener('click', handleFormSubmit);
-                      isEditing = true;
-                  };
-                  let editButton = document.getElementById('editButton'); 
-                  
-                  editButton.addEventListener('click', function () {
-                  
-                    if (isEditing) {
-                      handleFormSubmit();
-                      
-                      isEditing = false;
-                    } else {
-                      
-                      showEditingForm();
-                    }
-                  }); 
-                  
-                  const handleFormSubmit = () => {
-                          
-                    const formData = new FormData(document.getElementById('editForm'));
-      
-                      
-      
-                      $.ajaxSetup({
-                        headers:{
-                          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         }
-                      }); 
+                    });
+                    var adremElement = document.getElementById("adrem");
+                    if (adremElement) {
+                      adremElement.style.display = "none";
+                    }
+                    
 
-                      $.ajax({
-                        url: "/tables/basic/"+id,
-                        method:'post',  
+                    editButton.textContent = 'Save Changes';
+                    editButton.removeEventListener('click', showEditingForm);
+                    editButton.addEventListener('click', handleFormSubmit);
+                    isEditing = true;
+                };
+
+                let editButton = document.getElementById('editButton');
+
+                editButton.addEventListener('click', function () {
+                    if (isEditing) {
+                        handleFormSubmit();
+                        isEditing = false;
+                    } else {
+                        showEditingForm();
+                    }
+                });
+
+                const handleFormSubmit = () => {
+                    const formData = new FormData(document.getElementById('editForm'));
+
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
+
+                    $.ajax({
+                        url: "/tables/basic/" + id,
+                        method: 'post',
                         data: formData,
                         processData: false,
                         contentType: false,
@@ -327,19 +336,55 @@
                         },
                         error: function (error) {
                             console.error('Error updating data:', error);
-              
                         }
                     });
+                };
 
-                  };
+                const fetchWorkshops = (id) => {
+                    const xhr = new XMLHttpRequest();
+                    const url = `/tables/workshop/manager/api/${id}`; // Use the correct URL
+                    xhr.open('GET', url, true);
 
-                  
-                  showData();
-              });
-          });
-      });
-  </script>
+                    xhr.onload = function () {
+                        if (xhr.status === 200) {
+                            const response = JSON.parse(xhr.responseText);
+                            const workshops = response.workshops;
+                            
+                            let workshopList = '<ul>';
+                            workshops.forEach(workshop => {
+                                workshopList += `<li id="point" data-id="${workshop.id}">${workshop.name}</li>`;
+                            });
+                            workshopList += '</ul>';
 
+                            const workshopListContainer = document.getElementById('workshopList');
+                            
+                            workshopListContainer.innerHTML = workshopList;
+                            const workshopItems = document.querySelectorAll('#workshopList li');
+                              workshopItems.forEach(item => {
+                                item.addEventListener('click', function (event) {
+                                  const workshopId = event.target.getAttribute('data-id');
+                                  window.location.href = '/tables/workshop/view/' + workshopId;
+                });
+            });
+                          } else {
+                            console.error('Error retrieving workshops:', xhr.status);
+                        }
+                    };
+
+                    xhr.onerror = function () {
+                        console.error('Request failed');
+                    };
+
+                    xhr.send();
+                };
+
+                showData();
+            });
+        });
+   
+    });
+  
+</script>
 
 
 

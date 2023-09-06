@@ -22,14 +22,23 @@ p{
                   <h5 class="modal-title" id="modalTopTitle">ADD STUDENT</h5>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
+            
                 <div class="modal-body">
-                <label for="nameSlideTop" class="form-label">Students</label>
-                <select class="form-select" id="student" name="students[]" aria-label="Default select example" multiple>
-                @foreach ($students as $student)
-                    <option value="{{ $student->id }}">{{ $student->name }}</option>
-                @endforeach
-                </select>  
+                <div class="mb-3">
+                    <label for="student" class="form-label">Students</label>
+                    <input list="student-options" class="form-control" id="student" name="students[]" placeholder="Search for students" >
+                        <datalist id="student-options">
+                            @foreach ($students as $student)
+                                <option value="{{ $student->id }}">{{ $student->name }}</option>
+                            @endforeach
+                        </datalist>
+                    </div>
+                    <div class="mb-3">
+                        <label for="fee" class="form-label">Fee</label>
+                        <input type="text" class="form-control" id="studentfee" name="studentfee" placeholder="Enter fee paid" autofocus>
+                    </div>
                 </div>
+
                 <div class="modal-footer">
                   <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
                   <button type="submit" class="btn btn-primary">Save</button>
@@ -52,6 +61,10 @@ p{
                 <div class="mb-3">
                     <label class="form-label" for="basic-default-fullname">Name</label>
                     <p id="fee" name="fee">{{$workshop->name}}</p>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="basic-default-fullname">Status</label>
+                    <p id="status" name="status">{{$workshop->status}}</p>
                 </div>
                 <div class="mb-3">
                     <label class="form-label" for="basic-default-company">Manager</label>
@@ -83,12 +96,13 @@ p{
                 </div>
                 <div class="mb-3">
                 <label class="form-label" for="basic-default-company">Students</label>
-                <button type="button" class="adm btn rounded-pill btn btn-sm btn-outline-dark" data-bs-toggle="modal" data-bs-target="#modalTopStudent">Add Student</button>
+                <button type="button" class="adm btn rounded-pill btn btn-sm btn-outline-dark" data-bs-toggle="modal" data-bs-target="#modalTopStudent">Enroll Student</button>
                 <table class="table table-hover">
                     <thead>
                         <tr>
                             <th>Name</th>
                             <th>Email</th>
+                            <th>Fee</th>
                             <th>Phone Number</th>
                         </tr>
                     </thead>
@@ -97,6 +111,7 @@ p{
                         <tr>
                             <td>{{ $student->name }}</td>
                             <td>{{ $student->email }}</td>
+                            <td>{{ $student->fee }}</td>
                             <td>{{ $student->phone_number }}</td>
                         </tr>    
                         @endforeach      

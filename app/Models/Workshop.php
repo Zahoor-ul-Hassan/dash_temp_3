@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Workshop extends Model
 {
-    protected $fillable = ['name', 'fee', 'description'];
+    protected $fillable = ['name','status', 'fee', 'description'];
     public function teacher()
     {
         return $this->belongsToMany(User::class, 'workshop_teacher', 'workshop_id', 'teacher_id');

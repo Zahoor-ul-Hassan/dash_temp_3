@@ -51,42 +51,43 @@
           </div>
         </div>
         <div class="row mb-3">
+          <label class="col-sm-2 col-form-label" for="basic-default-name">Status</label>
+          <div class="col-sm-10">
+            <select class="form-select" id="status" name="status" aria-label="Default select example">
+              <option selected value="Ongoing">Ongoing</option>
+              <option value="Active">Active</option>
+              <option value="Cancelled">Cancelled</option>
+            </select>
+          </div>
+        </div>
+        <div class="row mb-3">
           <label class="col-sm-2 col-form-label" for="basic-default-fee">Fee</label>
           <div class="col-sm-10">
             <input type="text" class="form-control" id="fee" name="fee" placeholder="fee for workshop" />
           </div>
         </div>
         <div class="row mb-3">
-          <label for="teacher" class="form-label col-sm-2 ">Teacher</label>
+          <label for="teacher" class="form-label col-sm-2">Teacher</label>
           <div class="col-sm-10">
-            <select class="form-select" id="teacher" name="teachers[]" aria-label="Default select example" multiple>
-            
-              @foreach ($teachs as $teach)
-                <option value="{{ $teach->id }}">{{ $teach->name }}</option>
-              @endforeach
-            </select>
+            <input list="teacher-options" class="form-control" id="teacher" name="teachers[]" placeholder="Search for a teacher">
+              <datalist id="teacher-options">
+                @foreach ($teachs as $teach)
+                  <option value="{{ $teach->id }}">{{ $teach->name }}</option>
+                @endforeach
+              </datalist>
+            </div>
           </div>
-        </div>
-        <div class="row mb-3">
-          <label for="manager" class="form-label col-sm-2 ">Manager</label>
-          <div class="col-sm-10">
-            <select class="form-select" id="manager" name="managers[]" aria-label="Default select example" multiple>
-              @foreach ($manags as $manag)
-                <option value="{{ $manag->id }}">{{ $manag->name }}</option>
-              @endforeach
-            </select>
+          <div class="row mb-3">
+            <label for="manager" class="form-label col-sm-2">Manager</label>
+            <div class="col-sm-10">
+              <input list="manager-options" class="form-control" id="manager" name="managers[]" placeholder="Search for managers" multiple>
+                <datalist id="manager-options">
+                  @foreach ($manags as $manag)
+                  <option value="{{ $manag->id }}">{{ $manag->name }}</option>
+                  @endforeach
+              </datalist>
+            </div>
           </div>
-        </div>
-        <div class="row mb-3">
-          <label for="students" class="form-label col-sm-2 ">Student</label>
-          <div class="col-sm-10">
-            <select class="form-select" id="stud" name="students[]" aria-label="Default select example" multiple>
-              @foreach ($studs as $stud)
-                <option value="{{ $stud->id }}">{{ $stud->name }}</option>
-              @endforeach
-            </select>
-          </div>
-        </div>
         <div class="row mb-3">
           <label for="description" class="form-label col-sm-2">Description</label>
           <div class="col-sm-8">  
@@ -117,6 +118,7 @@
       <thead>
         <tr>
           <th>Name</th>
+          <th>Status</th>
           <th>Fee</th>
           <th>Description</th>
           <th>Action</th>
@@ -126,6 +128,7 @@
       @foreach ($workshops as $workshop)
         <tr>
           <td>{{ $workshop->name }}</td>
+          <td>{{ $workshop->status }}</td>
           <td>{{ $workshop->fee }}</td>
           <td>{{ $workshop->description }}</td>
           <td>

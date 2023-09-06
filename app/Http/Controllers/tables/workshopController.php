@@ -28,6 +28,7 @@ class workshopController extends Controller
   {
     $validatedData = $request->validate([
       'name' => 'nullable',
+      'status' => 'nullable',
       'fee' => 'nullable|numeric',
       'description' => 'nullable',
       'teachers' => 'nullable|array',
@@ -36,6 +37,7 @@ class workshopController extends Controller
       'managers.*' => 'exists:users,id',
       'students' => 'nullable|array',
       'students.*' => 'exists:students,id',
+      'studentfee' => 'nullable|numeric',
   ]);
 
   try {
@@ -48,7 +50,22 @@ class workshopController extends Controller
     $workshop->manager()->attach($request->input('managers'));
     // If students data is sent in the request, sync the students relationship
     if ($request->has('students')) {
-        $workshop->students()->attach($request->input('students'));
+      foreach ($request->input('students') as $studentData) {
+        $student = Student::find($studentData);
+        $studentfees=$request->input('studentfee');
+        if ($student) {
+            // Update the student's fee if it's provided
+            if($studentfees){
+                $student->fee = $studentfees;
+                $student->save();
+              }
+              else{
+                $student->fee = $workshop['fee'];
+              }
+          }
+          $workshop->students()->attach($request->input('students'));
+    }
+        
     }
     return view('content.tables.workshop-view')->with('workshop', $workshop)->with('students', $students);
     } catch (\Exception $e) {
@@ -76,9 +93,11 @@ class workshopController extends Controller
     return view('content.tables.workshop-view')->with('workshop', $workshop)->with('students', $students);
     
   }
+
   public function remove(Request $request,$id){
     $validatedData = $request->validate([
       'name' => 'nullable',
+      'status' => 'nullable',
       'fee' => 'nullable|numeric',
       'description' => 'nullable',
       'teachers' => 'nullable|array',
@@ -117,6 +136,25 @@ class workshopController extends Controller
     return response()->json(['message' => 'Workshop updated successfully']);
   }
 
+  public function managerWorkshops($id){
+    $manager = User::where('role', 'manager')->find($id);
+    $workshops = $manager->workshopsAsManager()->get(); 
 
+    return response()->json(['workshops' => $workshops]);
+  }
+
+  public function teacherWorkshops($id){
+    $teacher = User::where('role', 'teacher')->find($id);
+    $workshops = $teacher->workshopsAsTeacher()->get(); 
+
+    return response()->json(['workshops' => $workshops]);
+  }
+
+  public function studentWorkshops($id){
+    $student = Student::find($id);
+    $workshops = $student->workshops()->get(); 
+
+    return response()->json(['workshops' => $workshops]);
+  }
   
 }
