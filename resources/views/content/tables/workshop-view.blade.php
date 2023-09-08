@@ -26,10 +26,11 @@ p{
                 <div class="modal-body">
                 <div class="mb-3">
                     <label for="student" class="form-label">Students</label>
-                    <input list="student-options" class="form-control" id="student" name="students[]" placeholder="Search for students" >
+                    <input list="student-options" class="form-control" id="student" name="student[]" placeholder="Search for students">
+                    <input type="hidden" id="student-id-hidden" name="students[]">
                         <datalist id="student-options">
                             @foreach ($students as $student)
-                                <option value="{{ $student->id }}">{{ $student->name }}</option>
+                            <option value="{{ $student->name }}" data-student-id="{{ $student->id }}"></option>
                             @endforeach
                         </datalist>
                     </div>
@@ -121,5 +122,22 @@ p{
         </div>
     </div>
 </div> 
+<script>
+    document.getElementById('student').addEventListener('input', function () {
+    var input = this;
+    var datalist = document.getElementById('student-options');
+    var hiddenInput = document.getElementById('student-id-hidden');
+
+    var selectedOption = Array.from(datalist.options).find(function (option) {
+        return option.value === input.value;
+    });
+
+    if (selectedOption) {
+        hiddenInput.value = selectedOption.getAttribute('data-student-id');
+    } else {
+        hiddenInput.value = '';
+    }
+});
+</script>
 
 @endsection

@@ -52,12 +52,13 @@
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <label for="manager" class="form-label">Managers</label>
-                    <input list="manager-options" class="form-control" id="manager" name="managers[]" placeholder="Search for managers">
+                <label for="manager" class="form-label">Managers</label>
+                    <input list="manager-options" class="form-control" id="manager" name="manager[]" placeholder="Search for managers">
+                    <input type="hidden" id="manager-name-hidden" name="managers[]">
                         <datalist id="manager-options">
-                            @foreach ($managers as $manager)
-                                <option value="{{ $manager->id }}">{{ $manager->name }}</option>
-                            @endforeach
+                        @foreach ($managers as $manager)
+                            <option value="{{ $manager->name }}" data-manager-id="{{ $manager->id }}"></option>
+                        @endforeach
                         </datalist>
                 </div>
 
@@ -79,10 +80,11 @@
                 </div>
                 <div class="modal-body">
                     <label for="teacher" class="form-label">Teachers</label>
-                    <input list="teacher-options" class="form-control" id="teacher" name="teachers[]" placeholder="Search for teachers" >
+                    <input list="teacher-options" class="form-control" id="teacher" name="teacher[]" placeholder="Search for teachers" >
+                    <input type="hidden" id="teacher-name-hidden" name="teachers[]">    
                         <datalist id="teacher-options">
                             @foreach ($teachers as $teacher)
-                                <option value="{{ $teacher->id }}">{{ $teacher->name }}</option>
+                                <option value="{{ $teacher->name }}"  data-teacher-id="{{ $teacher->id }}"></option>
                             @endforeach
                         </datalist>
                 </div>
@@ -225,6 +227,36 @@
               
                         }
                     });
+    });
+    document.getElementById('teacher').addEventListener('input', function () {
+        var input = this;
+        var datalist = document.getElementById('teacher-options');
+        var hiddenInput = document.getElementById('teacher-name-hidden');
+        
+        var selectedOption = Array.from(datalist.options).find(function (option) {
+            return option.value === input.value;
+        });
+        
+        if (selectedOption) {
+            hiddenInput.value = selectedOption.getAttribute('data-teacher-id');
+        } else {
+            hiddenInput.value = '';
+        }
+    });
+    document.getElementById('manager').addEventListener('input', function () {
+        var input = this;
+        var datalist = document.getElementById('manager-options');
+        var hiddenInput = document.getElementById('manager-name-hidden');
+        
+        var selectedOption = Array.from(datalist.options).find(function (option) {
+            return option.value === input.value;
+        });
+        
+        if (selectedOption) {
+            hiddenInput.value = selectedOption.getAttribute('data-manager-id');
+        } else {
+            hiddenInput.value = '';
+        }
     });
 });
 </script>
